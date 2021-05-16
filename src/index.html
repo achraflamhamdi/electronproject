@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>MyLib</title>
+    
+    <link rel="stylesheet" href="index.css">
+
+    <script type="text/javascript" src="../node_modules/jquery/dist/jquery.slim.min.js"></script>
+    <script type="text/javascript" src="../node_modules/jquery/dist/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+
+    
+    <script type="text/javascript" src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="public/js/app.js"></script>
+
+  </head>
+  <body>
+    <div class="row no-gutters">
+      <div class="parent col-md-6 no-gutters">
+        <div class=" child bDiv d-flex justify-content-center align-items-center">
+          <a href="">BIBLIOTHEQUE</a>
+        </div>
+      </div>
+      <div class="parent col-md-6 no-gutters">
+        <div class="child aDiv d-flex justify-content-center align-items-center">
+          <a id="adherent" href="page.html">ADHERENT</a>
+        </div>
+      </div>
+    </div>
+    <script>
+      const electron = require('electron');
+      const ipcRenderer = electron.ipcRenderer;
+
+      let path = 'page.html';
+      const btn = document.querySelector('#adherent');
+      btn.addEventListener('click', ipcRenderer.send('adherent', path));
+    </script>
+  </body>
+</html>

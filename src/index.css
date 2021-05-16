@@ -1,0 +1,76 @@
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+.bDiv, .aDiv{
+  height: 50vh;
+  width: 100%;
+  font-size: 50px;
+  color: white;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+@media screen and (min-width:768px){
+
+  .bDiv, .aDiv{
+    height: 100vh;
+  }
+
+}
+
+.parent{
+  height: 100vh;
+  overflow: hidden;
+    position: relative;
+    display: inline-block;
+  cursor: pointer;
+}
+
+.child {
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  -webkit-transition: all .5s;
+  -moz-transition: all .5s;
+  -o-transition: all .5s;
+  transition: all .5s;
+}
+
+.parent:hover .child, .parent:focus .child {
+  -ms-transform: scale(1.2);
+  -moz-transform: scale(1.2);
+  -webkit-transform: scale(1.2);
+  -o-transform: scale(1.2);
+  transform: scale(1.2);
+}
+
+.parent:hover .child:before, .parent:focus .child:before {
+  display: block;
+}
+
+.parent:hover a, .parent:focus a {
+  display: block;
+}
+
+.child:before {
+  display: none;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(230, 238, 247, 0.75);
+  text-decoration: white;
+}
+
+.bDiv{
+  background: url(img/libr.jpg) no-repeat center center fixed;
+  background-size: cover;
+}
+.aDiv{
+  background: url(img/adh.jpg) no-repeat center center fixed;
+  background-size: cover;
+}
+
