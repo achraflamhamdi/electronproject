@@ -9,8 +9,20 @@ function sendForm(event) {
     ipcRenderer.send('form-submission', email);
 }
 
-let cri = document.getElementById('SearchWord')
+let cri;
+let form = document.getElementById('form_search');
 
-cri.addEventListener('input', function(){
+form.addEventListener('submit', function(){
+    cri = document.getElementById('SearchWord')
     ipcRenderer.send('Search-word', cri.value)
+    cri = null
 })
+
+function tout(){
+    ipcRenderer.send('Search-word', 'tout')
+}
+
+function heyLivre(n){
+    ipcRenderer.send('heyLivre', n)
+
+}

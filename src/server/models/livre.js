@@ -13,7 +13,7 @@ module.exports.getLivres = function(){
             
             resolve(rows)
 
-    });
+        });
 
     })
 
@@ -23,6 +23,23 @@ module.exports.getLivres = function(){
 
 module.exports.getLivreSearch = function(arg){
     return new Promise(function(resolve, reject){
-        $req = 'SELECT * FROM `livre` WHERE `titre` like ';
+        $req = 'SELECT * FROM `livre` WHERE `titre` like "%' +arg+ '%"';
+        db.query($req, (err, rows, fields) => {
+            if (err) reject(err);
+            
+            resolve(rows)
+
+        });
+    })
+}
+module.exports.getLivreById = function(arg){
+    return new Promise(function(resolve, reject){
+        $req = 'SELECT * FROM `livre` WHERE `IDLivre` = "' +arg+ '"';
+        db.query($req, (err, rows, fields) => {
+            if (err) reject(err);
+            
+            resolve(rows)
+
+        });
     })
 }

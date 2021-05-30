@@ -1,4 +1,5 @@
 const { app, BrowserWindow, Menu, ipcMain, remote, ipcRenderer } = require('electron');
+let router = require('electron').router;
 const os = require('os-utils');
 const path = require('path');
 const db = require('./db');
@@ -50,7 +51,8 @@ const createWindow = () => {
 };
 
 //server est indique ici
-let server = require('./server/server.js')
+let server = require('./server/server.js');
+const { request } = require('http');
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -148,7 +150,21 @@ db.c;
 
 //Search IPC 
 ipcMain.on('Search-word', function(event, arg){
-  console.log(arg)
+
+  if(arg == 'tout'){
+    server.tout();
+  }else{
+
+    server.settingValue(arg);
+    server.cherche();
+
+  }
+})
+
+ipcMain.on('heyLivre', function(event, arg){
+  console.log(arg+' from main process');
+  server.settingId(arg);
+  server.heyLivre();
 })
 
 // In this file you can include the rest of your app's specific main process

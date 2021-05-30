@@ -46,13 +46,16 @@
   },
   "dependencies": {
     "ajax": "0.0.4",
+    "body-parser": "^1.19.0",
     "bootstrap": "^4.6.0",
     "bootswatch": "^4.6.0",
+    "cors": "^2.8.5",
     "electron-squirrel-startup": "^1.0.0",
     "electron-version": "^2.0.1",
     "express": "^4.17.1",
     "jquery": "^3.6.0",
     "mysql": "^2.18.1",
+    "nodemon": "^2.0.7",
     "os-utils": "0.0.14",
     "popper": "^1.0.1"
   },
