@@ -2,10 +2,9 @@
     function registerUser() {
         var Nom = document.getElementById('Nom').value;
         var Prenom = document.getElementById('Prenom').value;
-        var email = document.getElementById('email').value;
         var Mdps = document.getElementById('Mdps').value;
      
-        if (Nom == '' || Prenom == '' || email == '' || Mdps == '') {
+        if (Nom == '' || Prenom == '' || Mdps == '') {
             displayNotification('Erreur!', 'Les valeurs ne peuvent pas être vides');
             return
         }
@@ -29,7 +28,7 @@
 
         // Perform a query
 
-        $query = 'INSERT INTO `adherent`( `MPasse`, `Nom`, `Prenom`, `Email`) VALUES ("' + Mdps + '", "' + Nom + '", "' + Prenom + '", "' + email + '");';
+        $query = 'INSERT INTO `bibliothecaire`(`MPasse`, `Nom`, `Prenom`) VALUES  ("' + Mdps + '", "' + Nom + '", "' + Prenom + '");';
 
         db.query($query, function (err, rows, fields) {
             if (err) {
@@ -47,9 +46,8 @@
         });
 
         // display notification
-        
-        displayNotification('Succès', 'Nouvel adherent enregistré avec succès');
-        window.location.href = "page1.html";
+        displayNotification('Succès', 'Nouvel bibliothecaire enregistré avec succès');
+        window.location.href = "index.html";
     }
 
     function displayNotification(titleValue, notificationValue) {
