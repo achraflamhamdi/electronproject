@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>MyLib</title>
+
+        <link rel="stylesheet" href="../node_modules/bootswatch/dist/solar/bootstrap.min.css"></link>
+    
+        <link rel="stylesheet" href="emprunts.css">
+
+        <script type="text/javascript" src="../node_modules/jquery/dist/jquery.slim.min.js"></script>
+        <script type="text/javascript" src="../node_modules/jquery/dist/jquery.min.js"></script>
+
+        
+        <script type="text/javascript" src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="public/js/app3.js"></script>
+        
+    </head>
+    <body>
+      
+      <div class="pos-f-t">
+
+        
+        
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <!-- <a class="navbar-brand" href="#">Navbar</a> -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          
+            <div class="collapse navbar-collapse" id="navbarColor01">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                  <a class="nav-link" href="index.html" onclick="">Livres
+                    <!-- <span class="sr-only">(current)</span> -->
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active" href="emprunts.html">Emprunts</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link"  id="btnAdh" href="adherents.html" onclick="">Adherents</a>
+                </li>
+                <!--<li class="nav-item">
+                  <a class="nav-link" href="#">About</a>
+                </li> -->
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Menu</a>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" href="livre.html">Nouveau Livre</a>
+                    <a class="dropdown-item" href="exemplair.html">Nouvel Exemplaire</a>
+                    <a class="dropdown-item" href="emprint.html">Nouvel Emprunt</a>
+                    <a class="dropdown-item" href="adherent.html">Nouvel Adherent</a>
+                    <!-- <a class="dropdown-item" href="#">Something else here</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Separated link</a> -->
+                  </div>
+                </li>
+              </ul>
+
+                 
+
+              <div style="float: right;">
+                <form method="GET" class="form-inline my-2 my-lg-0" id="form_search">
+                  <input class="form-control mr-sm-2" type="text" id="SearchWord" name="SearchWord" placeholder="Ex: Adam Nouri, 28733">
+                  <script src="renderFile3.js"></script>
+                  <button class="btn btn-secondary my-2 my-sm-0" type="submit" id="btnSearch">Chercher</button>
+                  <button class="btn btn-warning my-2 my-sm-0" style="margin-left: 5px;" onclick="tout()">Tout</button>
+                </form>
+              </div>
+            <!-- </div> -->
+        </nav>
+
+      </div>
+
+        <br>
+
+        <!-- The Modal -->
+<div class="modal" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-title">Terminer l'emprunt n :</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body" id="modal-body">
+        <div class="form-group">
+          <label for="exampleInputPassword1" class="form-label mt-4">Entrer la réelle date de retour : </label>
+          <input type="date" class="form-control" id="DatePre" required>
+        </div>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer" id="modal-footer">
+        <button type="button" class="btn btn-danger" id="btnSave" onclick="delEmp()">Enregistrer</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+        <div id="cards-holder">
+        <!-- livre division -->
+            <!-- <div class="card bg-light mb-3" style="max-width:98%; margin: 0 auto; text-align: center;">
+                <h4 class="card-header">Titre</h4>
+                <div class="card-body">
+                    <h4 class="card-title">Auteur</h4>
+                    <h6 class="card-subtitle text-muted">Categorie</h6>
+                </div>
+                <div class="card-footer btn-primary bg-secondary text-white">
+                    Savoir Plus...
+                </div>
+            </div>
+
+            <div class="card bg-light mb-3" style="max-width:98%; margin: 0 auto; text-align: center;">
+              <h4 class="card-header">Titre</h4>
+              <div class="card-body">
+                <h4 class="card-title">Auteur</h4>
+                <h6 class="card-subtitle text-muted">Categorie</h6>
+              </div>
+              <svg xmlns="http://www.w3.org/2000/svg" class="d-block user-select-none" aria-label="Placeholder: Image cap" focusable="false" role="img" preserveAspectRatio="xMidYMid slice" viewBox="0 0 318 100" style="font-size:1.125rem;text-anchor:middle">
+                
+                <image class="img-responsive" href="img/mis.jpg" height="100" width="100%" style="overflow: hidden; width: 100%;" />
+              </svg>
+              <div class="card-body">
+                <h6 class="card-title">Description :</h6>
+                <p class="card-text">Description ici</p>
+              </div>
+              <div class="card-body">
+                <h6 class="card-title">Emplacement :</h6>
+                  <p class="card-text">Section ici</p>
+                  <p class="card-text">Couloir ici</p>
+              </div>
+              <div class="card-body">
+                <p>Mots Cles</p>
+                <p>bla bla bla bla bla</p>
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  <p>Exemplaire 1</p>
+                  <button class="btn btn-primary bg-secondary text-white">Detruire</button>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  <p>Exemplaire 2</p>
+                  <button class="btn btn-primary bg-secondary text-white">Detruire</button>
+                </li>
+              </ul>
+              <div class="card-footer btn-warning bg-secondary text-white">
+                Detruire ce livre
+              </div>
+              <div class="card-footer btn-primary bg-secondary text-white">
+                Savoir Moins...
+            </div>
+            </div> -->
+
+        </div>
+
+
+
+        
+    </body>
+</html>

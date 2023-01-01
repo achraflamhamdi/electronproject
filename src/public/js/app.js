@@ -1,3 +1,4 @@
+const path = require('path');
 //JQuery functions being called down bellow
 $(document).ready(function(){
 
@@ -5,67 +6,89 @@ $(document).ready(function(){
         method: 'GET',
         url: 'http://localhost:3000/livres'
     }).then(function(response){
-        let idl, tite, auteur, categorie;
+        let idl, titre, auteur, categorie;
         var $cards_holder = $('#cards-holder')
-        var $modals_holder = $('#modals-holder')
         $cards_holder.empty();
+        var $card, $card_header, $card_body, $card_title, $card_text, $card_body2, $card_title2, $card_text2,
+            $card_body3, $card_title3, $card_text3, $card_text3_2,
+            $card_body4, $card_text4, $card_text4_2, $card_all,
+            $card_btn_del, $card_list, $card_list_item, $card_list_item_p, $card_list_item_etat, $card_list_item_btn, $card_btn
+        
+        
         response.forEach(function(item){
 
-            idl = item.IDLivre;
-            titre = item.Titre;
-            auteur = item.Auteur;
-            categorie = item.Categorie;
-
-            //card compenents
-            var $card = $('<div class="card bg-light mb-3" style="max-width:98%; margin: 0 auto; text-align: center;"></div>')
-            var $card_header = $('<h4 class="card-header"></h4>').html(item.Titre)
-            var $card_body = $('<div class="card-body"></div>')
-            var $card_title = $('<h4 class="card-title"></h4>').html(item.Auteur)
-            var $card_text = $('<p class="card-text"></p>').html(item.Categorie)
-            var $card_btn = $('<div class="card-footer btn-primary bg-secondary text-white"></div>').html('Savoir Plus').attr('data-toggle', 'modal'+idl).attr('data-target', '#myModal'+idl).attr('onclick', 'heyLivre('+idl+')')
             
 
-            //appending card body
-            $card_body.append([$card_title, $card_text])
-            //appending the card
-            $card.append([$card_header, $card_body, $card_btn])
+            if(idl != item.IDLivre){
 
-            //appending the whole card to card holder
-            $cards_holder.append($card)
+                idl = item.IDLivre;
+                titre = item.Titre;
+                auteur = item.Auteur;
+                categorie = item.Categorie;
+                
+
+                //card compenents
+                $card = $('<div class="card bg-light mb-3" style="max-width:98%; margin: 0 auto; text-align: center;"></div>')
+                $card_header = $('<h4 class="card-header"></h4>').html(item.Titre)
+                $card_body = $('<div class="card-body"></div>')
+                $card_title = $('<h4 class="card-title"></h4>').html(item.Auteur)
+                $card_text = $('<p class="card-text"></p>').html(item.Categorie)
+                //appending card body
+                $card_body.append([$card_title, $card_text])
+                $card_all = $('<div class="collapse" id="details'+idl+'"></div>')
+                $card_img_div = $('<svg xmlns="http://www.w3.org/2000/svg" class="d-block user-select-none" aria-label="Placeholder: Image cap" focusable="false" role="img" preserveAspectRatio="xMidYMid slice" viewBox="0 0 318 100" style="font-size:1.125rem;text-anchor:middle"></svg>')
+                $card_img = $('<img src="" height="318" width="200" />').attr('src', path.join(__dirname, '/img/'+item.Cover))
+                $card_img_div.append($card_img)
+                $card_body2 = $('<div class="card-body"></div>')
+                $card_title2 = $('<h6 class="card-title">Description :</h6>')
+                $card_text2 = $('<p class="card-text"></p>').html(item.Descr) //description
+                $card_body2.append([$card_title2, $card_text2])
+                $card_body3 = $('<div class="card-body"></div>')
+                $card_title3 = $('<h6 class="card-title">Emplacement :</h6>')
+                $card_text3 = $('<p class="card-text"></p>').html('Section : '+item.Section) //Section
+                $card_text3_2 = $('<p class="card-text"></p>').html('Couloir : '+item.Couloir) // Couloir
+                $card_body3.append([$card_title3, $card_text3, $card_text3_2])
+                $card_body4 = $('<div class="card-body"></div>')
+                $card_text4 = $('<p>Mots-Clés :</p>')
+                $card_text4_2 = $('<p></p>').html(item.Tags) // tags
+                $card_body4.append([$card_text4, $card_text4_2])
+                $card_list = $('<ul class="list-group list-group-flush"></ul>')
+
+                //response1.forEach(function(item){
+                    $card_list_item = $('<li class="list-group-item d-flex justify-content-between align-items-center"></li>')
+                    $card_list_item_p = $('<p></p>').html('Exemplaire : '+item.IDExemplaire)
+                    $card_list_item_etat = $('<p></p>').html(item.Etat)
+                    $card_list_item_btn = $('<button class="btn btn-primary bg-secondary text-white" onclick="delEx('+item.IDExemplaire+')">Detruire</button>')
+                    $card_list_item.append($card_list_item_p, $card_list_item_etat, $card_list_item_btn)
+                    $card_list.append($card_list_item)
+                //})
+
+                $card_btn_del = $('<div class="card-footer btn btn-warning bg-secondary text-white collapse" id="details'+idl+'" onclick="delLivre('+item.IDLivre+')">Detruire ce livre</div>')
+
+                $card_all.append([$card_img, $card_body2, $card_body3, $card_body4, $card_list])
+
+                $card_btn = $('<div class="card-footer btn btn-primary bg-secondary text-white"></div>').html('Savoir Plus').attr('data-toggle', 'collapse').attr('data-target', '#details'+idl).attr('onclick', 'heyLivre(this)')
+                
+
+                
+                //appending the card
+                $card.append([$card_header, $card_body, $card_all, $card_btn_del, $card_btn])
+
+                //appending the whole card to card holder
+                $cards_holder.append($card)
+            }else{
+
+                    $card_list_item = $('<li class="list-group-item d-flex justify-content-between align-items-center"></li>')
+                    $card_list_item_p = $('<p></p>').html('Exemplaire : '+item.IDExemplaire)
+                    $card_list_item_etat = $('<p></p>').html(item.Etat)
+                    $card_list_item_btn = $('<button class="btn btn-primary bg-secondary text-white" onclick="delEx('+item.IDExemplaire+')">Detruire</button>')
+                    $card_list_item.append($card_list_item_p, $card_list_item_etat, $card_list_item_btn)
+                    $card_list.append($card_list_item)
 
 
-            // //modal compenents
-            // var $modal = $('<div class="" id="myModal"></div>').attr('class', 'modal'+idl).attr('id', 'myModal'+idl)
-
-            // var $modal_dialog = $('<div class="modal-dialog" role="document"></div')
-
-            // var $modal_content = $('<div class="modal-content"></div>')
-
-            // var $modal_header = $('<div class="modal-header"></div>')
-
-            // var $modal_title = $('<h5 class="modal-title"></h5>').html(titre)
-
-            // var $modal_croix = $('<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"></span>&times;</button>')
-
-            // var $modal_body = $('<div class="modal-body"></div>').html(categorie)
-
-            // var $modal_footer = $('<div class="modal-footer"></div>')
-
-            // var $modal_footer_btn = $('<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>')
-
-            // $modal_footer.append($modal_footer_btn)
-            
-            // $modal_header.append([$modal_title, $modal_croix])
-
-            // $modal_content.append([$modal_header, $modal_body, $modal_footer])
-
-            // $modal_dialog.append($modal_content)
-
-            // $modal.append($modal_dialog)
+            }
 
 
-            // //appending the whole modal to modals holder
-            // $modals_holder.append($modal)
 
         })
 
@@ -76,6 +99,7 @@ $(document).ready(function(){
         method: 'GET',
         url: 'http://localhost:3000/SearchLivre'
     }).then(function(response){
+        let idl, titre, auteur, categorie;
         var $cards_holder = $('#cards-holder')
         $cards_holder.empty();
 
@@ -83,48 +107,158 @@ $(document).ready(function(){
             var $card = $('<center><h3>Aucune Resultat</h3></center>')
                 $cards_holder.append($card)
         }
+
+        var $card, $card_header, $card_body, $card_title, $card_text, $card_body2, $card_title2, $card_text2,
+        $card_body3, $card_title3, $card_text3, $card_text3_2,
+        $card_body4, $card_text4, $card_text4_2, $card_all,
+        $card_btn_del, $card_list, $card_list_item, $card_list_item_p, $card_list_item_etat, $card_list_item_btn, $card_btn
+
+
         response.forEach(function(item){
 
-            if(item == null){
+            if(idl != item.IDLivre){
+
+                idl = item.IDLivre;
+                titre = item.Titre;
+                auteur = item.Auteur;
+                categorie = item.Categorie;
                 
+
+                //card compenents
+                $card = $('<div class="card bg-light mb-3" style="max-width:98%; margin: 0 auto; text-align: center;"></div>')
+                $card_header = $('<h4 class="card-header"></h4>').html(item.Titre)
+                $card_body = $('<div class="card-body"></div>')
+                $card_title = $('<h4 class="card-title"></h4>').html(item.Auteur)
+                $card_text = $('<p class="card-text"></p>').html(item.Categorie)
+                //appending card body
+                $card_body.append([$card_title, $card_text])
+                $card_all = $('<div class="collapse" id="details'+idl+'"></div>')
+                $card_img_div = $('<svg xmlns="http://www.w3.org/2000/svg" class="d-block user-select-none" aria-label="Placeholder: Image cap" focusable="false" role="img" preserveAspectRatio="xMidYMid slice" viewBox="0 0 318 100" style="font-size:1.125rem;text-anchor:middle"></svg>')
+                $card_img = $('<img src="" height="318" width="200" />').attr('src', path.join(__dirname, '/img/'+item.Cover))
+                $card_img_div.append($card_img)
+                $card_body2 = $('<div class="card-body"></div>')
+                $card_title2 = $('<h6 class="card-title">Description :</h6>')
+                $card_text2 = $('<p class="card-text"></p>').html(item.Descr) //description
+                $card_body2.append([$card_title2, $card_text2])
+                $card_body3 = $('<div class="card-body"></div>')
+                $card_title3 = $('<h6 class="card-title">Emplacement :</h6>')
+                $card_text3 = $('<p class="card-text"></p>').html('Section : '+item.Section) //Section
+                $card_text3_2 = $('<p class="card-text"></p>').html('Couloir : '+item.Couloir) // Couloir
+                $card_body3.append([$card_title3, $card_text3, $card_text3_2])
+                $card_body4 = $('<div class="card-body"></div>')
+                $card_text4 = $('<p>Mots-Clés :</p>')
+                $card_text4_2 = $('<p></p>').html(item.Tags) // tags
+                $card_body4.append([$card_text4, $card_text4_2])
+                $card_list = $('<ul class="list-group list-group-flush"></ul>')
+
+                //response1.forEach(function(item){
+                    $card_list_item = $('<li class="list-group-item d-flex justify-content-between align-items-center"></li>')
+                    $card_list_item_p = $('<p></p>').html('Exemplaire : '+item.IDExemplaire)
+                    $card_list_item_etat = $('<p></p>').html(item.Etat)
+                    $card_list_item_btn = $('<button class="btn btn-primary bg-secondary text-white" onclick="delEx('+item.IDExemplaire+')">Detruire</button>')
+                    $card_list_item.append($card_list_item_p, $card_list_item_etat, $card_list_item_btn)
+                    $card_list.append($card_list_item)
+                //})
+
+                $card_btn_del = $('<div class="card-footer btn btn-warning bg-secondary text-white collapse" id="details'+idl+'" onclick="delLivre('+item.IDLivre+')">Detruire ce livre</div>')
+
+                $card_all.append([$card_img, $card_body2, $card_body3, $card_body4, $card_list])
+
+                $card_btn = $('<div class="card-footer btn btn-primary bg-secondary text-white"></div>').html('Savoir Plus').attr('data-toggle', 'collapse').attr('data-target', '#details'+idl).attr('onclick', 'heyLivre(this)')
+                
+
+                
+                //appending the card
+                $card.append([$card_header, $card_body, $card_all, $card_btn_del, $card_btn])
+
+                //appending the whole card to card holder
+                $cards_holder.append($card)
+            }else{
+
+                    $card_list_item = $('<li class="list-group-item d-flex justify-content-between align-items-center"></li>')
+                    $card_list_item_p = $('<p></p>').html('Exemplaire : '+item.IDExemplaire)
+                    $card_list_item_etat = $('<p></p>').html(item.Etat)
+                    $card_list_item_btn = $('<button class="btn btn-primary bg-secondary text-white" onclick="delEx('+item.IDExemplaire+')">Detruire</button>')
+                    $card_list_item.append($card_list_item_p, $card_list_item_etat, $card_list_item_btn)
+                    $card_list.append($card_list_item)
+
+
             }
-
-            var $card = $('<div class="card bg-light mb-3" style="max-width:98%; margin: 0 auto; text-align: center;"></div>')
-            var $card_header = $('<h4 class="card-header"></h4>').html(item.Titre)
-            var $card_body = $('<div class="card-body"></div>')
-            var $card_title = $('<h4 class="card-title"></h4>').html(item.Auteur)
-            var $card_text = $('<p class="card-text"></p>').html(item.Categorie)
-            var $card_btn = $('<div class="card-footer btn-primary bg-secondary text-white"></div>').html('Savoir Plus')
-
-            //appending card body
-            $card_body.append([$card_title, $card_text])
-            //appending the card
-            $card.append([$card_header, $card_body, $card_btn])
-
-            //appending the whole card to card holder
-            $cards_holder.append($card)
         })
     })
 
-    $.ajax({
-        method: 'GET',
-        url: 'http://localhost:3000/heyLivre'
-    }).then(function(response){
-        //var $cards_holder = $('#cards-holder')
-        //$cards_holder.empty();
+    
+    $('#btnAdh').click(function(){
 
-        if(Object.entries(response).length === 0){
-            var $card = $('<center><h3>Aucune Resultat</h3></center>')
-                $cards_holder.append($card)
-        }
-        response.forEach(function(item){
+        $.ajax({
 
-            if(item == null){
-                
-            }
+            method: 'GET',
+            url: 'http://localhost:3000/adherents'
 
+        }).then(function(response){
+            let ida, nom, prenom, email;
+            var $cards_holder = $('#cards-holder')
+            $cards_holder.empty();
+            var $card, $card_header, $card_body, $card_title, $card_text, $card_list, $card_list_item, $card_list_item_p, $card_list_item_etat, $card_list_item_btn, $card_btn
             
+            
+            response.forEach(function(item){
+
+                
+
+                if(ida != item.IDAdherent){
+
+                    ida = item.IDAdherent;
+                    nom = item.Nom;
+                    prenom = item.Prenom;
+                    email = item.Email;
+                    
+
+                    //card compenents
+                    $card = $('<div class="card bg-light mb-3" style="max-width:98%; margin: 0 auto; text-align: center;"></div>')
+                    $card_header = $('<h4 class="card-header"></h4>').html(nom+' '+prenom)
+                    $card_body = $('<div class="card-body"></div>')
+                    $card_title = $('<h4 class="card-title"></h4>').html(email)
+                    $card_text = $('<p class="card-text"></p>')
+                    $card_list = $('<ul class="list-group list-group-flush collapse" id="details'+ida+'"></ul>')
+
+                    //response1.forEach(function(item){
+                        $card_list_item = $('<li class="list-group-item d-flex justify-content-between align-items-center"></li>')
+                        $card_list_item_p = $('<p></p>').html()
+                        $card_list_item_etat = $('<p></p>').html()
+                        $card_list_item_btn = $('<button class="btn btn-primary bg-secondary text-white">Detruire</button>')
+                        $card_list_item.append($card_list_item_p, $card_list_item_etat, $card_list_item_btn)
+                        $card_list.append($card_list_item)
+                    //})
+                    $card_btn = $('<div class="card-footer btn btn-primary bg-secondary text-white"></div>').html('Savoir Plus').attr('data-toggle', 'collapse').attr('data-target', '#details'+ida).attr('onclick', 'heyLivre(this)')
+                    
+
+                    //appending card body
+                    $card_body.append([$card_title, $card_text])
+                    //appending the card
+                    $card.append([$card_header, $card_body, $card_list, $card_btn])
+
+                    //appending the whole card to card holder
+                    $cards_holder.append($card)
+                }else{
+
+                        $card_list_item = $('<li class="list-group-item d-flex justify-content-between align-items-center"></li>')
+                        $card_list_item_p = $('<p></p>').html()
+                        $card_list_item_etat = $('<p></p>').html()
+                        $card_list_item_btn = $('<button class="btn btn-primary bg-secondary text-white">Detruire</button>')
+                        $card_list_item.append($card_list_item_p, $card_list_item_etat, $card_list_item_btn)
+                        $card_list.append($card_list_item)
+
+
+                }
+
+
+
+            })
+
+            //function heyLivre
         })
+    
     })
 
 });

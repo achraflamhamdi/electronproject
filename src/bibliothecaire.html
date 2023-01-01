@@ -11,7 +11,8 @@ Copy this code in your html file.
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>PHP Form</title>
+
+    <title>Formulaire </title>
     <link rel="stylesheet" href="../node_modules/bootswatch/dist/solar/bootstrap.min.css"></link>
     
     <script type="text/javascript" src="../node_modules/jquery/dist/jquery.slim.min.js"></script>
@@ -45,6 +46,55 @@ Copy this code in your html file.
   </head>
 
 <body>
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <!-- <a class="navbar-brand" href="#">Navbar</a> -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarColor01">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Livres
+            <span class="sr-only">(current)</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Emprunts</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="">Adherents</a>
+        </li>
+        <!--<li class="nav-item">
+          <a class="nav-link" href="#">About</a>
+        </li> -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Menu</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="livre.html">Nouveau Livre</a>
+            <a class="dropdown-item" href="exemplair.html">Nouvel Exemplaire</a>
+            <a class="dropdown-item" href="emprint.html">Nouvel Emprunt</a>
+            <a class="dropdown-item" href="adherent.html">Nouvel Adherent</a>
+            <!-- <a class="dropdown-item" href="#">Something else here</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Separated link</a> -->
+          </div>
+        </li>
+      </ul>
+
+         
+
+      <div style="float: right;">
+        <form method="GET" class="form-inline my-2 my-lg-0" id="form_search">
+          <input class="form-control mr-sm-2" type="text" id="SearchWord" name="SearchWord" placeholder="Ex: Les Misèrables">
+          <script src="renderFile.js"></script>
+          <button class="btn btn-secondary my-2 my-sm-0" type="submit" id="btnSearch">Chercher</button>
+          <button class="btn btn-warning my-2 my-sm-0" style="margin-left: 5px;" onclick="tout()">Tout</button>
+        </form>
+      </div>
+    <!-- </div> -->
+</nav>
   <div class="ara">
     <label class="ar">Formulaire bibliothecaire</label>
     <fieldset>

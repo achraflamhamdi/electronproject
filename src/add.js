@@ -1,4 +1,16 @@
 
+const db = require('./db');
+var express = require('express');
+const { ipcRenderer } = require('electron');
+var router = express.Router();
+
+const ipc = require('electron').ipcRenderer
+    
+    var cover;
+    function coverf(e){
+        cover = e;
+    }
+
     function registerUser() {
         var Nom = document.getElementById('Nom').value;
         var Prenom = document.getElementById('Prenom').value;
@@ -29,7 +41,8 @@
 
         // Perform a query
 
-        $query = 'INSERT INTO `adherent`( `MPasse`, `Nom`, `Prenom`, `Email`) VALUES ("' + Mdps + '", "' + Nom + '", "' + Prenom + '", "' + email + '");';
+        $query = 'INSERT INTO `adherent`( `APP`, `Nom`, `Prenom`, `Email`) VALUES ("' + Mdps + '", "' + Nom + '", "' + Prenom + '", "' + email + '");';
+
 
         db.query($query, function (err, rows, fields) {
             if (err) {
@@ -39,6 +52,7 @@
             }
 
             console.log("Query successfully executed");
+
         });
 
         // Close the connection
@@ -46,10 +60,8 @@
             // The connection has been closed
         });
 
-        // display notification
-        
-        displayNotification('Succès', 'Nouvel adherent enregistré avec succès');
-        window.location.href = "page1.html";
+        displayNotification('Notification!', 'Adherent ajouté avec succès !');
+        window.location.href = "adherents.html";
     }
 
     function displayNotification(titleValue, notificationValue) {

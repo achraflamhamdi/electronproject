@@ -53,6 +53,7 @@
     "electron-squirrel-startup": "^1.0.0",
     "electron-version": "^2.0.1",
     "express": "^4.17.1",
+    "image-size": "^1.0.0",
     "jquery": "^3.6.0",
     "mysql": "^2.18.1",
     "nodemon": "^2.0.7",

@@ -1,6 +1,7 @@
-const { app, BrowserWindow, Menu, ipcMain, remote, ipcRenderer } = require('electron');
+const { app, BrowserWindow, Menu, ipcMain, remote, ipcRenderer, dialog } = require('electron');
 let router = require('electron').router;
 const os = require('os-utils');
+const oS = require('os')
 const path = require('path');
 const db = require('./db');
 const ad = require('./add');
@@ -24,7 +25,8 @@ const createWindow = () => {
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
-      webSecurity : false
+      webSecurity : false,
+      enableRemoteModule: true
     }
   });
   
@@ -32,7 +34,7 @@ const createWindow = () => {
   mainWindow.maximize();
 
   // and load the index.html of the app.
-  mainWindow.loadFile(path.join(__dirname, 'page1.html'));
+  mainWindow.loadFile(path.join(__dirname, 'index.html'));
 
   // Open the DevTools. desactive pour le moment
   //mainWindow.webContents.openDevTools();
@@ -94,17 +96,7 @@ function createAddWindow1(){
 //menu template
 const mainMenuTemplate = [
 
-  {
-    label: 'Ajout',
-    submenu:[
-      {
-        label: 'Ajouter Livre',
-      },
-      {
-        label: 'Ajouter Adherent'
-      },
-    ]
-  },
+  
   {
     label: 'Options',
     submenu:[
@@ -165,6 +157,68 @@ ipcMain.on('heyLivre', function(event, arg){
   console.log(arg+' from main process');
   server.settingId(arg);
   server.heyLivre();
+})
+
+ipcMain.on('show-adhs', function(events, arg){
+  server.showAdhs();
+})
+
+ipcMain.on('show-livres', function(events, arg){
+  server.tout();
+  console.log('books request !')
+})
+
+ipcMain.on('Search-adh', function(event, arg){
+
+  if(arg == 'tout'){
+    server.toutAdh();
+  }else{
+
+    server.settingValue(arg);
+    server.chercheAdh();
+
+  }
+})
+
+ipcMain.on('Search-emp', function(event, arg){
+
+  if(arg == 'tout'){
+    server.toutemp();
+  }else{
+
+    server.settingValue(arg);
+    server.chercheEmp();
+
+  }
+})
+
+//cover getting
+ipcMain.on('getcover', function(event){
+    //checking the operating system
+    if(oS.platform() === 'linux' || oS.platform() === 'win32'){
+      dialog.showOpenDialog({
+        properties: ['openFile'],
+        filtres: [
+          { name : 'Images', extensions: ['jpg', 'png', 'gif'] }
+        ]
+      }).then(result => {
+        event.sender.send('thisCover', result.filePaths[0])
+      })
+    }else{
+      //for mac system
+      dialog.showOpenDialog({
+        properties: ['openFile', 'openDirectory'],
+        filtres: [
+          { name : 'Images', extensions: ['jpg', 'png', 'gif'] }
+        ]
+      }).then(result => {
+        event.sender.send('thisCover', result.filePaths[0])
+      })
+    }
+})
+
+ipcMain.on('file', function(event, arg){
+  console.log(arg);
 })
 
 // In this file you can include the rest of your app's specific main process
